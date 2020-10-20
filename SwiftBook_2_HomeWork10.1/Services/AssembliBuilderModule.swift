@@ -24,7 +24,8 @@ class AssembliBuilderModule: AssembliBuilderModuleProtocol {
     
     func createDetailHeroScreen(hero: Hero, router: Router) -> DetailHeroViewController {
         let view = DetailHeroViewController()
-        let presenter = DetailHeroPresenter(view: view, hero: hero, router: router)
+        let network = NetworkManager()
+        let presenter = DetailHeroPresenter(view: view, hero: hero, network: network, router: router)
         view.presenter = presenter
         return view
     }

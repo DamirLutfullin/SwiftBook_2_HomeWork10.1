@@ -7,8 +7,14 @@
 
 import UIKit
 
+protocol DetailHeroViewProtocol: class {
+    var presenter: DetailHeroPresenterProtocol! {get set}
+    func setImage(dataForImage: Data)
+}
+
+
 class DetailHeroViewController: UIViewController, DetailHeroViewProtocol {
-   
+    
     var presenter: DetailHeroPresenterProtocol!
     var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(style: .medium)
@@ -26,15 +32,13 @@ class DetailHeroViewController: UIViewController, DetailHeroViewProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.insertSubview(activityIndicator, aboveSubview: heroImage)
-        if let imageString = presenter.hero?.images.lg {
-            self.heroImage.downloaded(from: imageString) { [weak self] in
-                self?.activityIndicator.stopAnimating()
-            }
-        }
+        presenter.setImage()
     }
     
-    func setHero(hero: Hero?) {
-        
+    func setImage(dataForImage: Data) {
+        let image = UIImage(data: dataForImage)
+        self.heroImage.image = image
+        self.activityIndicator.stopAnimating()
     }
 }
 

@@ -9,6 +9,7 @@ import Foundation
 
 protocol NetworkManagerProtocol {
     func getHeroes(completion: @escaping (Result<[Hero]?, Error>) -> ())
+    func downloadImage(urlString: String, completion: @escaping (Result<Data, Error>) -> Void)
 }
 
 class NetworkManager: NetworkManagerProtocol {
@@ -31,5 +32,17 @@ class NetworkManager: NetworkManagerProtocol {
                 }
             }
         }.resume()
+    }
+    
+    func downloadImage(urlString: String, completion: @escaping (Result<Data, Error>) -> Void) {
+        guard let url = URL(string: urlString) else { return }
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data else {
+                DispatchQueue.main.async { completion(.failure(error!)) }
+                return
+            }
+            DispatchQueue.main.async { completion(.success(data)) }
+        }
+        task.resume()
     }
 }

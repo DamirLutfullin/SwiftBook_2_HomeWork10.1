@@ -7,27 +7,38 @@
 
 import Foundation
 
-protocol DetailHeroViewProtocol: class {
-    var presenter: DetailHeroPresenterProtocol! {get set}
-    func setHero(hero: Hero?)
-}
-
 protocol DetailHeroPresenterProtocol: AnyObject {
     var view: DetailHeroViewProtocol? { get set }
-    var hero: Hero? {get set}
-    var router: Router {get set}
-    init(view: DetailHeroViewProtocol, hero: Hero, router: Router)
+    init(view: DetailHeroViewProtocol, hero: Hero, network: NetworkManagerProtocol, router: Router)
+    func setImage()
 }
 
 class DetailHeroPresenter: DetailHeroPresenterProtocol {
+    
     weak var view: DetailHeroViewProtocol?
     var hero: Hero?
-    var router: Router
+    var router: RouterProtocol
+    var network: NetworkManagerProtocol
     
-    required init(view: DetailHeroViewProtocol, hero: Hero, router: Router) {
+    required init(view: DetailHeroViewProtocol, hero: Hero, network: NetworkManagerProtocol, router: Router) {
         self.hero = hero
         self.view = view
+        self.network = network
         self.router = router
+    }
+    
+    func setImage() {
+        guard  let imageString = hero?.images.lg else {
+            return
+        }
+        network.downloadImage(urlString: imageString) { [weak self] (result) in
+            switch result {
+            case .success(let data):
+                self?.view?.setImage(dataForImage: data)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
 }
 
