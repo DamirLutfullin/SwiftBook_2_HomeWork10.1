@@ -29,6 +29,5 @@ class AssembliBuilderModule: AssembliBuilderModuleProtocol {
         view.presenter = presenter
         return view
     }
-    
 }
 
