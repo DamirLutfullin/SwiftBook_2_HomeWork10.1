@@ -16,23 +16,25 @@ protocol DetailHeroViewProtocol: class {
 class DetailHeroViewController: UIViewController, DetailHeroViewProtocol {
     
     var presenter: DetailHeroPresenterProtocol!
-    var activityIndicator: UIActivityIndicatorView = {
-        let activityIndicator = UIActivityIndicatorView(style: .medium)
+    var activityIndicator: UIActivityIndicatorView!
+    
+    @IBOutlet var heroImage: UIImageView!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setActivityIndicator()
+        view.insertSubview(activityIndicator, aboveSubview: heroImage)
+        presenter.setImage()
+    }
+    
+    private func setActivityIndicator() {
+        self.activityIndicator = UIActivityIndicatorView(style: .medium)
         activityIndicator.frame = CGRect(x: 0, y: 0,
                                          width: UIScreen.main.bounds.size.width,
                                          height: UIScreen.main.bounds.size.height)
         activityIndicator.color = .black
         activityIndicator.startAnimating()
         activityIndicator.hidesWhenStopped = true
-        return activityIndicator
-    }()
-    
-    @IBOutlet var heroImage: UIImageView!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.insertSubview(activityIndicator, aboveSubview: heroImage)
-        presenter.setImage()
     }
     
     func setImage(dataForImage: Data) {

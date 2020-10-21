@@ -7,6 +7,7 @@
 
 import UIKit
 
+//MARK: - StartHeroViewProtocol
 protocol StartHeroViewProtocol: class {
     func showHeroes()
     func showError(error: Error)
@@ -16,24 +17,28 @@ protocol StartHeroViewProtocol: class {
 class StartHeroView: UITableViewController {
 
     var heroPresenter: StartHeroPresenterProtocol!
-    var activityIndicator: UIActivityIndicatorView = {
-        let activityIndicator = UIActivityIndicatorView(style: .medium)
+    var activityIndicator: UIActivityIndicatorView!
+    var dataForImage: Data?
+    
+    //MARK: - life cycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        tableView.separatorStyle = .none
+        setActivityIndicator()
+        tableView.register(UINib(nibName: "HeroTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
+        heroPresenter.setHeroesForView()
+    }
+    
+    //MARK: - func
+    private func setActivityIndicator() {
+        self.activityIndicator = UIActivityIndicatorView(style: .medium)
         activityIndicator.frame = CGRect(x: 0, y: 0,
                                          width: UIScreen.main.bounds.size.width,
                                          height: UIScreen.main.bounds.size.height)
         activityIndicator.color = .black
         activityIndicator.startAnimating()
         activityIndicator.hidesWhenStopped = true
-        return activityIndicator
-    }()
-    
-    var dataForImage: Data?
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        tableView.separatorStyle = .none
         tableView.addSubview(activityIndicator)
-        tableView.register(UINib(nibName: "HeroTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
     }
 }
 
@@ -74,8 +79,9 @@ extension StartHeroView {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! HeroTableViewCell
-        if let hero = heroPresenter.heroes?[indexPath.row], let task = heroPresenter.setImage(hero: hero, indexPath: indexPath) {
-            cell.configurateCell(hero: hero, task: task)
+        if let hero = heroPresenter.heroes?[indexPath.row],
+           let task = heroPresenter.setImageForCell(hero: hero, cellIndex: indexPath) {
+            cell.configurate(hero: hero, task: task)
         }
         return cell
     }

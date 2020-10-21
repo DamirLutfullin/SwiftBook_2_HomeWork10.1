@@ -8,12 +8,16 @@
 import UIKit
 
 protocol StartHeroPresenterProtocol: class {
+    
     var heroes: [Hero]? {get set}
     var router: Router {get set}
+    
     init(view: StartHeroViewProtocol?, network: NetworkManagerProtocol, router: Router)
-    func downloadComments()
+    
+    func setHeroesForView()
     func showDetailView(hero: Hero)
-    func setImage(hero: Hero, indexPath: IndexPath) -> URLSessionTask?
+    func setImageForCell(hero: Hero, cellIndex: IndexPath) -> URLSessionTask?
+    
 }
 
 class StartHeroPresenter: StartHeroPresenterProtocol {
@@ -24,15 +28,13 @@ class StartHeroPresenter: StartHeroPresenterProtocol {
     var heroes: [Hero]?
     var task: URLSessionTask?
     
-    
     required init(view: StartHeroViewProtocol?, network: NetworkManagerProtocol, router: Router) {
         self.heroView = view
         self.network = network
         self.router = router
-        self.downloadComments()
     }
     
-    func downloadComments() {
+    func setHeroesForView() {
         network.getHeroes { [weak self] (result) in
             switch result {
             case .success(let heroes):
@@ -48,12 +50,12 @@ class StartHeroPresenter: StartHeroPresenterProtocol {
         router.pushDetailViewController(hero: hero)
     }
     
-    func setImage(hero: Hero, indexPath: IndexPath) -> URLSessionTask? {
+    func setImageForCell(hero: Hero, cellIndex: IndexPath) -> URLSessionTask? {
         let imageString = hero.images.lg
-        self.task = network.downloadImage2(urlString: imageString, indexPath: indexPath) { [weak self] (result) in
+        self.task = network.downloadImageForCell(urlString: imageString, indexPath: cellIndex) { [weak self] (result) in
             switch result {
             case .success(let data):
-                self?.heroView?.setImage(dataForImage: data, indexPath: indexPath)
+                self?.heroView?.setImage(dataForImage: data, indexPath: cellIndex)
             case .failure(let error):
                 print(error.localizedDescription)
             }

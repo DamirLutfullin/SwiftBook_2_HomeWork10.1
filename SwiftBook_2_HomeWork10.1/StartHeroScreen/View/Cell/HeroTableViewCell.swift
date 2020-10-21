@@ -17,16 +17,7 @@ class HeroTableViewCell: UITableViewCell {
     @IBOutlet var durability: UILabel!
     @IBOutlet var strength: UILabel!
     @IBOutlet var speed: UILabel!
-    
-    func configurateCell(hero: Hero, task: URLSessionTask) {
-        self.task = task
-        fullName.text = hero.name
-        intelligence.text = hero.powerstats.intelligence.description
-        durability.text = hero.powerstats.durability.description
-        strength.text = hero.powerstats.strength.description
-        speed.text = hero.powerstats.speed.description
-    }
-    
+   
     override func prepareForReuse() {
         super.prepareForReuse()
         
@@ -37,6 +28,15 @@ class HeroTableViewCell: UITableViewCell {
         self.intelligence.text = nil
         self.speed.text = nil
         self.strength.text = nil
+    }
+    
+    func configurate(hero: Hero, task: URLSessionTask) {
+        self.task = task
+        fullName.text = hero.name
+        intelligence.text = hero.powerstats.intelligence.description
+        durability.text = hero.powerstats.durability.description
+        strength.text = hero.powerstats.strength.description
+        speed.text = hero.powerstats.speed.description
     }
     
     func setImage(data: Data) {

@@ -10,7 +10,7 @@ import Foundation
 protocol NetworkManagerProtocol {
     func getHeroes(completion: @escaping (Result<[Hero]?, Error>) -> ())
     func downloadImage(urlString: String, completion: @escaping (Result<Data, Error>) -> Void)
-    func downloadImage2(urlString: String, indexPath: IndexPath, completion: @escaping (Result<Data, Error>) -> Void) -> URLSessionTask?
+    func downloadImageForCell(urlString: String, indexPath: IndexPath, completion: @escaping (Result<Data, Error>) -> Void) -> URLSessionTask?
 }
 
 class NetworkManager: NetworkManagerProtocol {
@@ -37,17 +37,16 @@ class NetworkManager: NetworkManagerProtocol {
     
     func downloadImage(urlString: String, completion: @escaping (Result<Data, Error>) -> Void) {
         guard let url = URL(string: urlString) else { return }
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+        URLSession.shared.dataTask(with: url) { data, response, error in
             guard let data = data else {
                 DispatchQueue.main.async { completion(.failure(error!)) }
                 return
             }
             DispatchQueue.main.async { completion(.success(data)) }
-        }
-        task.resume()
+        }.resume()
     }
     
-    func downloadImage2(urlString: String, indexPath: IndexPath, completion: @escaping (Result<Data, Error>) -> Void) -> URLSessionTask? {
+    func downloadImageForCell(urlString: String, indexPath: IndexPath, completion: @escaping (Result<Data, Error>) -> Void) -> URLSessionTask? {
         guard let url = URL(string: urlString) else { return nil }
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             guard let data = data else {
