@@ -27,6 +27,18 @@ class StartHeroView: UITableViewController {
         setActivityIndicator()
         tableView.register(UINib(nibName: "HeroTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
         heroPresenter.setHeroesForView()
+        
+        self.navigationController?.navigationBar.tintColor = .black
+
+        
+        let visualEffectView   = UIVisualEffectView(effect: UIBlurEffect(style: .light))
+        visualEffectView.frame =  (self.navigationController?.navigationBar.bounds.insetBy(dx: 0, dy: -10).offsetBy(dx: 0, dy: -10))!
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.addSubview(visualEffectView)
+        self.navigationController?.navigationBar.sendSubviewToBack(visualEffectView)
+        visualEffectView.layer.zPosition = -1;
+            visualEffectView.isUserInteractionEnabled = false
     }
     
     //MARK: - func

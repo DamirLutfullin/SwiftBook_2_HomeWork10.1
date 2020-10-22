@@ -100,7 +100,6 @@
 		1938C272253510D700395E8F /* SwiftBook_2_HomeWork10.1 */ = {
 			isa = PBXGroup;
 			children = (
-				19A90181253DFF2100A4C524 /* Extension */,
 				19CE5DBE253C8E4C00FF9AEB /* App */,
 				19E3AE4F2539B66F00F2C691 /* StartHeroScreen */,
 				1936F524253CF9F900C7179A /* DetailHeroView */,
@@ -108,13 +107,6 @@
 				19E3AE532539B6B700F2C691 /* SupportingFiles */,
 			);
 			path = SwiftBook_2_HomeWork10.1;
-			sourceTree = "<group>";
-		};
-		19A90181253DFF2100A4C524 /* Extension */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Extension;
 			sourceTree = "<group>";
 		};
 		19CE5DBE253C8E4C00FF9AEB /* App */ = {

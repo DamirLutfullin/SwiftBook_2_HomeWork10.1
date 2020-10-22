@@ -19,6 +19,7 @@ class DetailHeroViewController: UIViewController, DetailHeroViewProtocol {
     var activityIndicator: UIActivityIndicatorView!
     
     @IBOutlet var heroImage: UIImageView!
+    @IBOutlet var backGroundImage: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +40,7 @@ class DetailHeroViewController: UIViewController, DetailHeroViewProtocol {
     
     func setImage(dataForImage: Data) {
         let image = UIImage(data: dataForImage)
+        self.backGroundImage.image = image
         self.heroImage.image = image
         self.activityIndicator.stopAnimating()
     }
