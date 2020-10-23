@@ -19,7 +19,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jhM-Xg-lwd">
-                        <rect key="frame" x="20" y="10" width="494" height="322"/>
+                        <rect key="frame" x="10" y="10" width="514" height="322"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Снимок экрана 2020-10-18 в 07.34.36" translatesAutoresizingMaskIntoConstraints="NO" id="3LK-oV-Eth">
                                 <rect key="frame" x="0.0" y="0.0" width="224" height="322"/>
@@ -28,7 +28,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wek-Fa-biN">
-                                <rect key="frame" x="224" y="149.5" width="270" height="23"/>
+                                <rect key="frame" x="236" y="149.5" width="266" height="23"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="19"/>
                                 <color key="textColor" red="1" green="0.58823529409999997" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -37,9 +37,9 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="3LK-oV-Eth" firstAttribute="width" secondItem="jhM-Xg-lwd" secondAttribute="width" multiplier="0.45" priority="999" id="BMc-km-fPK"/>
-                            <constraint firstItem="wek-Fa-biN" firstAttribute="leading" secondItem="3LK-oV-Eth" secondAttribute="trailing" id="Khz-Ee-lOz"/>
+                            <constraint firstItem="wek-Fa-biN" firstAttribute="leading" secondItem="3LK-oV-Eth" secondAttribute="trailing" constant="12" id="Khz-Ee-lOz"/>
                             <constraint firstAttribute="bottom" secondItem="3LK-oV-Eth" secondAttribute="bottom" id="Nfq-95-I17"/>
-                            <constraint firstAttribute="trailing" secondItem="wek-Fa-biN" secondAttribute="trailing" id="QjW-vf-adn"/>
+                            <constraint firstAttribute="trailing" secondItem="wek-Fa-biN" secondAttribute="trailing" constant="12" id="QjW-vf-adn"/>
                             <constraint firstItem="3LK-oV-Eth" firstAttribute="leading" secondItem="jhM-Xg-lwd" secondAttribute="leading" id="UjR-Fw-TDl"/>
                             <constraint firstItem="3LK-oV-Eth" firstAttribute="top" secondItem="jhM-Xg-lwd" secondAttribute="top" id="nHR-G1-9M3"/>
                             <constraint firstItem="wek-Fa-biN" firstAttribute="centerY" secondItem="jhM-Xg-lwd" secondAttribute="centerY" id="we9-JX-O47"/>
@@ -47,10 +47,10 @@
                     </view>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="jhM-Xg-lwd" secondAttribute="trailing" constant="20" id="GBe-4y-8aq"/>
+                    <constraint firstAttribute="trailing" secondItem="jhM-Xg-lwd" secondAttribute="trailing" constant="10" id="GBe-4y-8aq"/>
                     <constraint firstItem="jhM-Xg-lwd" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="Zqw-b4-C9b"/>
                     <constraint firstAttribute="bottom" secondItem="jhM-Xg-lwd" secondAttribute="bottom" constant="10" id="oWN-be-gt2"/>
-                    <constraint firstItem="jhM-Xg-lwd" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="oeX-5Z-2WV"/>
+                    <constraint firstItem="jhM-Xg-lwd" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="oeX-5Z-2WV"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>

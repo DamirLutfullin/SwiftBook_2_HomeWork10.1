@@ -18,7 +18,7 @@ class HeroTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         self.backgroundColor = .clear
-        self.containerViewForCell.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.8)
+        self.containerViewForCell.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.9)
         heroImageView.clipsToBounds = true
     }
     
