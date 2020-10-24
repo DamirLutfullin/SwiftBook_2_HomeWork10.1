@@ -21,7 +21,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jhM-Xg-lwd">
                         <rect key="frame" x="10" y="10" width="514" height="322"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Снимок экрана 2020-10-18 в 07.34.36" translatesAutoresizingMaskIntoConstraints="NO" id="3LK-oV-Eth">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Снимок" translatesAutoresizingMaskIntoConstraints="NO" id="3LK-oV-Eth">
                                 <rect key="frame" x="0.0" y="0.0" width="224" height="322"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="3LK-oV-Eth" secondAttribute="height" multiplier="16:23" id="5Fx-IX-JXT"/>
@@ -63,7 +63,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="Снимок экрана 2020-10-18 в 07.34.36" width="588" height="834"/>
+        <image name="Снимок" width="588" height="834"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
