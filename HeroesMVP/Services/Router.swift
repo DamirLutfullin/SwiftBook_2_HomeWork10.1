@@ -9,9 +9,9 @@ import UIKit
 
 protocol  RouterMain {
     var navigationController: UINavigationController {get set}
-    var assembliBuilder: AssembliBuilderModuleProtocol {get set}
+    var moduleBuilder: ModuleBuilderProtocol {get set}
     
-    init(navigationController: UINavigationController, assembliBuilder: AssembliBuilderModuleProtocol)
+    init(navigationController: UINavigationController, moduleBuilder: ModuleBuilderProtocol)
 }
 
 protocol RouterProtocol: RouterMain {
@@ -23,20 +23,20 @@ protocol RouterProtocol: RouterMain {
 final class Router: RouterProtocol {
     
     var navigationController: UINavigationController
-    var assembliBuilder: AssembliBuilderModuleProtocol
+    var moduleBuilder: ModuleBuilderProtocol
     
-    required init(navigationController: UINavigationController, assembliBuilder: AssembliBuilderModuleProtocol) {
+    required init(navigationController: UINavigationController, moduleBuilder: ModuleBuilderProtocol) {
         self.navigationController = navigationController
-        self.assembliBuilder = assembliBuilder
+        self.moduleBuilder = moduleBuilder
     }
     
     func createInitialViewController() {
-        let viewController = assembliBuilder.createMainHeroScreen(router: self)
+        let viewController = moduleBuilder.createMainHeroScreen(router: self)
         navigationController.viewControllers = [viewController]
     }
     
     func pushDetailViewController(hero: Hero) {
-        let detailHerpViewController = assembliBuilder.createDetailHeroScreen(hero: hero, router: self)
+        let detailHerpViewController = moduleBuilder.createDetailHeroScreen(hero: hero, router: self)
         navigationController.pushViewController(detailHerpViewController, animated: true)
     }
     

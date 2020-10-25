@@ -7,12 +7,12 @@
 
 import Foundation
 
-protocol AssembliBuilderModuleProtocol: class {
+protocol ModuleBuilderProtocol: class {
     func createMainHeroScreen(router: Router) -> StartHeroView
     func createDetailHeroScreen(hero: Hero, router: Router) -> DetailHeroViewController
 }
 
-final class AssembliBuilderModule: AssembliBuilderModuleProtocol {
+final class ModuleBuilder: ModuleBuilderProtocol {
     
     func createMainHeroScreen(router: Router) -> StartHeroView {
         let mainHeroViewController = StartHeroView()
