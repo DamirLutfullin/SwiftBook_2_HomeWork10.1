@@ -110,9 +110,8 @@ extension StartHeroView: StartHeroViewProtocol {
 //MARK: - UITableViewDelegate
 extension StartHeroView {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-            if let hero = heroes?[indexPath.row] {
-                heroPresenter.showDetailView(hero: hero)
-            
+        if let hero = heroes?[indexPath.row] {
+            heroPresenter.showDetailView(hero: hero)
         }
     }
 }
