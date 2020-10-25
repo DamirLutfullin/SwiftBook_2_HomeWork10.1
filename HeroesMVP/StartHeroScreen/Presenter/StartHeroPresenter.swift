@@ -26,8 +26,8 @@ final class StartHeroPresenter: StartHeroPresenterProtocol {
     private weak var heroView: StartHeroViewProtocol!
     private var network: NetworkManagerProtocol!
     private var task: URLSessionTask?
-    var heroes: [Hero]?
-    var filteredHeroes: [Hero]?
+    private var heroes: [Hero]?
+    private var filteredHeroes: [Hero]?
     
     required init(view: StartHeroViewProtocol?, network: NetworkManagerProtocol, router: Router) {
         self.heroView = view
