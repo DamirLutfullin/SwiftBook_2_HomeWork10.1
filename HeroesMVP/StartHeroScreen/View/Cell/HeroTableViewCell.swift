@@ -9,8 +9,9 @@ import UIKit
 
 final class HeroTableViewCell: UITableViewCell {
     
-    // для отмены загрузки картинки в случае пролистывания
+    // Свойство для отмены загрузки картинки, в случае быстрого скрола пользователем, когда картинка еще не загрузилась, а ячейка уже переиспользуется
     private weak var task: URLSessionTask?
+    private var cornerRadius: CGFloat = 15
     
     @IBOutlet var containerViewForCell: UIView!
     @IBOutlet var heroImageView: UIImageView!
@@ -19,32 +20,41 @@ final class HeroTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         self.backgroundColor = .clear
-        self.containerViewForCell.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.9)
+        self.containerViewForCell.backgroundColor = UIColor.darkGray.withAlphaComponent(0.5)
         heroImageView.clipsToBounds = true
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        heroImageView.layer.cornerRadius = 15
-        containerViewForCell.layer.cornerRadius = 15
+        heroImageView.layer.cornerRadius = cornerRadius
+        containerViewForCell.layer.cornerRadius = cornerRadius
     }
-
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        //отменяет загрузку картинки, если пропала необходимость
         task?.cancel()
-        self.heroImageView?.image = #imageLiteral(resourceName: "Снимок")
+        self.heroImageView?.image = #imageLiteral(resourceName: "ImagePlaceholder")
         self.fullName.text = nil
     }
     
-    func configurate(hero: Hero, task: URLSessionTask) {
-        self.task = task
+    func configurate(hero: Hero) {
         fullName.text = hero.name
+        setImage(hero: hero)
     }
     
-    func setImage(data: Data) {
-        self.heroImageView.image = UIImage(data: data)
+    private func setImage(hero: Hero) {
+        let urlString = hero.images.lg
+        task = NetworkManager.shared.downloadImageForCell(urlString: urlString, completion: { [weak self] (result) in
+            switch result {
+            case .success(let data):
+                guard let image = UIImage(data: data) else {return}
+                self?.heroImageView?.image = image
+                self?.task = nil
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        })
     }
 }

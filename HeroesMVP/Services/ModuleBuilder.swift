@@ -16,16 +16,14 @@ final class ModuleBuilder: ModuleBuilderProtocol {
     
     func createMainHeroScreen(router: Router) -> StartHeroView {
         let mainHeroViewController = StartHeroView()
-        let network = NetworkManager()
-        let presenter = StartHeroPresenter(view: mainHeroViewController, network: network, router: router)
+        let presenter = StartHeroPresenter(view: mainHeroViewController, router: router)
         mainHeroViewController.heroPresenter = presenter
         return mainHeroViewController
     }
     
     func createDetailHeroScreen(hero: Hero, router: Router) -> DetailHeroViewController {
         let view = DetailHeroViewController()
-        let network = NetworkManager()
-        let presenter = DetailHeroPresenter(view: view, hero: hero, network: network, router: router)
+        let presenter = DetailHeroPresenter(view: view, hero: hero, router: router)
         view.presenter = presenter
         return view
     }

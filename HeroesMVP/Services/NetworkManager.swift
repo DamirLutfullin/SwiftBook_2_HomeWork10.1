@@ -7,17 +7,20 @@
 
 import Foundation
 
-protocol NetworkManagerProtocol {
-    func getHeroes(completion: @escaping (Result<[Hero]?, Error>) -> ())
-    func downloadImage(urlString: String, completion: @escaping (Result<Data, Error>) -> Void)
-    func downloadImageForCell(urlString: String, indexPath: IndexPath, completion: @escaping (Result<Data, Error>) -> Void) -> URLSessionTask?
-}
-
-final class NetworkManager: NetworkManagerProtocol {
+struct NetworkManager {
     
-    func getHeroes(completion: @escaping (Result<[Hero]?, Error>) -> ()) {
+    static var shared = NetworkManager()
+    let sessionWithCache: URLSession!
+    
+    private init() {
+        let configuration = URLSessionConfiguration.default
+        configuration.urlCache = URLCache(memoryCapacity: 150 * 1024 * 1024, diskCapacity: 400 * 1024 * 1024, diskPath: "images")
+        sessionWithCache = URLSession(configuration: configuration)
+    }
+    
+    func downloadHeroes(completion: @escaping (Result<[Hero]?, Error>) -> ()) {
         guard let url = URL(string: "https://akabab.github.io/superhero-api/api/all.json") else {return}
-        URLSession.shared.dataTask(with: url) { (data, response, error) in
+        sessionWithCache.dataTask(with: url) { (data, response, error) in
             if let error = error {
                 completion(.failure(error))
             }
@@ -37,23 +40,26 @@ final class NetworkManager: NetworkManagerProtocol {
     
     func downloadImage(urlString: String, completion: @escaping (Result<Data, Error>) -> Void) {
         guard let url = URL(string: urlString) else { return }
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let data = data else {
-                DispatchQueue.main.async { completion(.failure(error!)) }
-                return
+        sessionWithCache.dataTask(with: url) { data, response, error in
+            if let data = data  {
+                DispatchQueue.main.async {
+                    completion(.success(data))}
+            } else if let error = error {
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
             }
-            DispatchQueue.main.async { completion(.success(data)) }
         }.resume()
     }
     
-    func downloadImageForCell(urlString: String, indexPath: IndexPath, completion: @escaping (Result<Data, Error>) -> Void) -> URLSessionTask? {
+    func downloadImageForCell(urlString: String, completion: @escaping (Result<Data, Error>) -> ()) -> URLSessionTask? {
         guard let url = URL(string: urlString) else { return nil }
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+        let task = sessionWithCache.dataTask(with: url) { data, response, error in
             guard let data = data else {
-                DispatchQueue.main.async { completion(.failure(error!)) }
+                DispatchQueue.main.async {completion(.failure(error!)) }
                 return
             }
-            DispatchQueue.main.async { completion(.success(data)) }
+            DispatchQueue.main.async {completion(.success(data)) }
         }
         task.resume()
         return task

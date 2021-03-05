@@ -11,7 +11,6 @@ import UIKit
 protocol StartHeroViewProtocol: class {
     func showHeroes(heroes: [Hero]?)
     func showError(error: Error)
-    func showCellImage(dataForImage: Data, indexPath: IndexPath)
 }
 
 final class StartHeroView: UITableViewController {
@@ -95,12 +94,6 @@ extension StartHeroView: StartHeroViewProtocol {
         activityIndicator.stopAnimating()
     }
     
-    func showCellImage(dataForImage: Data, indexPath: IndexPath) {
-        //так как мы листаем быстро, на момент получения картинки ячейки по данному индексу может уже не существовать, и попытка установки картинки приведет к падению из за обращения к нилу
-        guard let cell = tableView.cellForRow(at: indexPath) as? HeroTableViewCell else { return }
-        cell.setImage(data: dataForImage)
-    }
-    
     func showError(error: Error) {
         activityIndicator.stopAnimating()
         print(error.localizedDescription)
@@ -125,9 +118,8 @@ extension StartHeroView {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! HeroTableViewCell
-        if let hero = heroes?[indexPath.row],
-           let task = heroPresenter.setImageForCell(hero: hero, cellIndex: indexPath) {
-            cell.configurate(hero: hero, task: task)
+        if let hero = heroes?[indexPath.row] {
+            cell.configurate(hero: hero)
         }
         return cell
     }
@@ -148,5 +140,3 @@ extension StartHeroView: UISearchBarDelegate {
         heroPresenter.setHeroesForView()
     }
 }
-
-

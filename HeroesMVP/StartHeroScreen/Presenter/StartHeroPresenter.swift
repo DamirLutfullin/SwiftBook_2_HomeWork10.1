@@ -8,35 +8,25 @@
 import UIKit
 
 protocol StartHeroPresenterProtocol: class {
-
-    var heroes: [Hero]? {get set}
-
-    init(view: StartHeroViewProtocol?, network: NetworkManagerProtocol, router: Router)
-    
     func setHeroesForView()
     func setFilteresHeroes(searchQuery: String)
     func showDetailView(hero: Hero)
-    func setImageForCell(hero: Hero, cellIndex: IndexPath) -> URLSessionTask?
-    
 }
 
 final class StartHeroPresenter: StartHeroPresenterProtocol {
    
     private var router: Router
     private weak var heroView: StartHeroViewProtocol!
-    private var network: NetworkManagerProtocol!
-    private var task: URLSessionTask?
     private var heroes: [Hero]?
     private var filteredHeroes: [Hero]?
     
-    required init(view: StartHeroViewProtocol?, network: NetworkManagerProtocol, router: Router) {
+    required init(view: StartHeroViewProtocol?, router: Router) {
         self.heroView = view
-        self.network = network
         self.router = router
     }
     
     func setHeroesForView() {
-        network.getHeroes { [weak self] (result) in
+        NetworkManager.shared.downloadHeroes { [weak self] (result) in
             switch result {
             case .success(let heroes):
                 self?.heroes = heroes
@@ -56,18 +46,5 @@ final class StartHeroPresenter: StartHeroPresenterProtocol {
     
     func showDetailView(hero: Hero) {
         router.pushDetailViewController(hero: hero)
-    }
-    
-    func setImageForCell(hero: Hero, cellIndex: IndexPath) -> URLSessionTask? {
-        let imageString = hero.images.lg
-        self.task = network.downloadImageForCell(urlString: imageString, indexPath: cellIndex) { [weak self] (result) in
-            switch result {
-            case .success(let data):
-                self?.heroView?.showCellImage(dataForImage: data, indexPath: cellIndex)
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
-        return task
     }
 }
